@@ -1,0 +1,22 @@
+﻿@model IEnumerable<AlphaShop1.Models.ViewModel.SiderbarVM>
+
+<h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Brand</span></h5>
+<div class="bg-light p-4 mb-30">
+    <div class="col-lg-12">
+        <div>
+            <ul class="list-unstyled">
+                @foreach (var item in Model)
+                {
+                    <li>
+                        <div class="d-flex justify-content-between">
+                            <a class="h6 text-decoration-none text-truncate" asp-action="Index" asp-controller="Brand" asp-route-Id="@item.Id">
+                                 @item.Name
+                            </a>
+                            <span>(@item.ProductCount)</span>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
