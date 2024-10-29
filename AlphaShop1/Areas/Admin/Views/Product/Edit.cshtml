@@ -1,16 +1,16 @@
 ﻿@model ProductModel
 @{
-	ViewData["Title"] = "Create Product";
+	ViewData["Title"] = "Edit Product";
 }
 
 
 
 <div class="custom-container">
-	<h3>Create Product</h3>
+	<h3>Edit Product</h3>
 	</br>
 	<div class="col-md-9">
 		<div asp-validation-summary="All"></div>
-		<form asp-action="Create" enctype="multipart/form-data">
+		<form asp-action="Edit" enctype="multipart/form-data">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 			<div class="form-group">
@@ -49,12 +49,12 @@
 
 			<div class="form-group">
 				<label>Image</label>
-				<input asp-for="ImageUpload" class="form-control" id="ImageUpload" />
+				<input asp-for="ImageUpload" class="form-control" />
 				<span asp-validation-for="Image" class="text-danger"></span>
-				<img id="imgpreview" class="pt-2"
+				<img src="~/media/products/@Model.Image" width="120" />
 			</div>
 			<div class="form-group">
-				<button class="btn btn-primary">Create</button>
+				<button class="btn btn-primary">Update</button>
 				<a class="btn btn-primary" asp-action="Index">Back to List Product</a>
 			</div>
 		</form>
@@ -74,9 +74,4 @@
 	@{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
-	<script>
-		$("#ImageUpload").change(function () {
-			readURL(this);
-		});
-	</script>
 }

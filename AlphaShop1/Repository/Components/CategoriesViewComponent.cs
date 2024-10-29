@@ -14,7 +14,7 @@ namespace AlphaShop1.Repository.Components
 
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
-			var Data = await _dataContext.Categories.Select(c => new SiderbarVM
+			var Data = await _dataContext.Categories.Where(p => p.Status == 1).Select(c => new SiderbarVM
 			{
 				Id = c.Id,
 				Name = c.Name,

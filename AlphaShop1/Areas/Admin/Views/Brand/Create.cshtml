@@ -1,12 +1,11 @@
-﻿@model ProductModel
+﻿@model BrandModel
+
 @{
-	ViewData["Title"] = "Create Product";
+	ViewData["Title"] = "Create Brand";
 }
 
-
-
 <div class="custom-container">
-	<h3>Create Product</h3>
+	<h3>Create Brand</h3>
 	</br>
 	<div class="col-md-9">
 		<div asp-validation-summary="All"></div>
@@ -20,39 +19,20 @@
 			</div>
 
 			<div class="form-group">
-				<label>Price</label>
-				<input asp-for="Price" class="form-control" />
-				<span asp-validation-for="Price" class="text-danger"></span>
-			</div>
-
-			<div class="form-group">
 				<label>Description</label>
 				<textarea asp-for="Description" class="form-control"></textarea>
 				<span asp-validation-for="Description" class="text-danger"></span>
 			</div>
 
 			<div class="form-group">
-				<label>Category</label>
-				<select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
-					<option>--Choose a Category</option>
-				</select>
-				<span asp-validation-for="CategoryId" class="text-danger"></span>
-			</div>
-
-			<div class="form-group">
 				<label>Brand</label>
-				<select asp-for="BrandId" class="form-control" asp-items="ViewBag.Brands">
-					<option>--Choose a Brand</option>
+				<select asp-for="Status" class="form-control" asp-items="ViewBag.Brands">
+					<option value="1">Hiển thị</option>
+					<option value="0">Ẩn</option>
 				</select>
-				<span asp-validation-for="BrandId" class="text-danger"></span>
+				<span asp-validation-for="Status" class="text-danger"></span>
 			</div>
 
-			<div class="form-group">
-				<label>Image</label>
-				<input asp-for="ImageUpload" class="form-control" id="ImageUpload" />
-				<span asp-validation-for="Image" class="text-danger"></span>
-				<img id="imgpreview" class="pt-2"
-			</div>
 			<div class="form-group">
 				<button class="btn btn-primary">Create</button>
 				<a class="btn btn-primary" asp-action="Index">Back to List Product</a>
@@ -74,9 +54,4 @@
 	@{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
-	<script>
-		$("#ImageUpload").change(function () {
-			readURL(this);
-		});
-	</script>
 }

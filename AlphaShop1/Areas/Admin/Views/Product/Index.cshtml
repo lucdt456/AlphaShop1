@@ -33,13 +33,13 @@
 					<td class="align-middle">@item.Name</td>
 					<td class="align-middle">@item.Description</td>
 					<td class="align-middle">@item.Price</td>
-					<td class="align-middle"><img src="~/imgs/@item.Image" width="80" /> </td>
+					<td class="align-middle"><img src="~/media/products/@item.Image" width="80" /> </td>
 					<td class="align-middle">@item.Slug</td>
 					<td class="align-middle">@item.Category.Name</td>
 					<td class="align-middle">@item.Brand.Name</td>
 					<td class="align-middle">
-						<a class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></a>
-						<a class="btn btn-sm btn-danger ml-1"><i class="fa-solid fa-x"></i></a>
+						<a asp-action="Edit" asp-controller="Product" asp-route-Id="@item.Id" class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></a>
+						<a asp-action="Delete" asp-controller="Product" asp-route-Id="@item.Id" class="btn btn-sm btn-danger ml-1"><i class="fa-solid fa-x"></i></a>
 					</td>
 				</tr>
 			}

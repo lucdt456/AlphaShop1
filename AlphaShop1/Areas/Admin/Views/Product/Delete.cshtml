@@ -1,60 +1,56 @@
 ﻿@model ProductModel
 @{
-	ViewData["Title"] = "Create Product";
+	ViewData["Title"] = "Delete Product";
 }
 
-
-
 <div class="custom-container">
-	<h3>Create Product</h3>
+	<h3>Delete Product</h3>
 	</br>
 	<div class="col-md-9">
 		<div asp-validation-summary="All"></div>
-		<form asp-action="Create" enctype="multipart/form-data">
+		<form method="post" asp-action="DeletePost" enctype="multipart/form-data">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 			<div class="form-group">
+				<input asp-for="Id" hidden />
 				<label>Name</label>
-				<input asp-for="Name" class="form-control" />
-				<span asp-validation-for="Name" class="text-danger"></span>
+				<input asp-for="Name" disabled class="form-control" />
+				<span asp-validation-for="Name" disabled class="text-danger"></span>
 			</div>
 
 			<div class="form-group">
 				<label>Price</label>
-				<input asp-for="Price" class="form-control" />
+				<input asp-for="Price" disabled class="form-control" />
 				<span asp-validation-for="Price" class="text-danger"></span>
 			</div>
 
 			<div class="form-group">
 				<label>Description</label>
-				<textarea asp-for="Description" class="form-control"></textarea>
+				<textarea asp-for="Description" disabled class="form-control"></textarea>
 				<span asp-validation-for="Description" class="text-danger"></span>
 			</div>
 
 			<div class="form-group">
 				<label>Category</label>
-				<select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
+				<select asp-for="CategoryId" disabled class="form-control" asp-items="ViewBag.Categories">
 					<option>--Choose a Category</option>
 				</select>
-				<span asp-validation-for="CategoryId" class="text-danger"></span>
+				<span asp-validation-for="CategoryId" disabled class="text-danger"></span>
 			</div>
 
 			<div class="form-group">
 				<label>Brand</label>
-				<select asp-for="BrandId" class="form-control" asp-items="ViewBag.Brands">
+				<select asp-for="BrandId" class="form-control" disabled asp-items="ViewBag.Brands">
 					<option>--Choose a Brand</option>
 				</select>
-				<span asp-validation-for="BrandId" class="text-danger"></span>
+				<span asp-validation-for="BrandId" disabled class="text-danger"></span>
 			</div>
 
 			<div class="form-group">
-				<label>Image</label>
-				<input asp-for="ImageUpload" class="form-control" id="ImageUpload" />
-				<span asp-validation-for="Image" class="text-danger"></span>
-				<img id="imgpreview" class="pt-2"
+				<img src="~/imgs/@Model.Image" width="120" />
 			</div>
 			<div class="form-group">
-				<button class="btn btn-primary">Create</button>
+				<button class="btn btn-primary">Delete</button>
 				<a class="btn btn-primary" asp-action="Index">Back to List Product</a>
 			</div>
 		</form>
@@ -74,9 +70,4 @@
 	@{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
-	<script>
-		$("#ImageUpload").change(function () {
-			readURL(this);
-		});
-	</script>
 }
