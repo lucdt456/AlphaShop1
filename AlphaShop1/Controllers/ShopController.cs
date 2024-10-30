@@ -14,19 +14,44 @@ namespace AlphaShop1.Controllers
 			_dataContext = dataContext;
 		}
 
-		public IActionResult Index()
+		//Hiển thị danh sách hàng hóa
+		public async Task<IActionResult> Index()
 		{
-			var products = _dataContext.Products.Include(p => p.Category).Include(p=>p.Brand).ToList();
-			return View(products);
+			var products = await _dataContext.Products.Include(p => p.Category).Include(p => p.Brand).ToListAsync();
+			return PartialView("_DanhSachSanPham", products);
 		}
 
-		public IActionResult Search(string? query)
+
+		//Tìm kiếm
+		public async Task<IActionResult> Search(string? query)
 		{
-			if (query != null) {
-				var product = _dataContext.Products.Where(p => p.Name.Contains(query)).Include(p => p.Category).Include(p => p.Brand).ToList();
-				return View(product);
+			if (query != null)
+			{
+				var products = await _dataContext.Products.Where(p => p.Name.Contains(query)).Include(p => p.Category).Include(p => p.Brand).ToListAsync();
+				return PartialView("_DanhSachSanPham", products);
 			}
 			return RedirectToAction("Index");
+		}
+
+
+		//Lọc theo Category
+		public async Task<IActionResult> CategoryFill(int? Id)
+		{
+			if (Id == null)
+			{
+				return NotFound();
+			}
+			var products = await _dataContext.Products.Where(p => p.CategoryId == Id).Include(p => p.Category).Include(p => p.Brand).ToListAsync();
+			return PartialView("_DanhSachSanPham", products);
+		}
+
+		//Lọc theo Brand
+		public async Task<IActionResult> BrandFill(int? Id)
+		{
+			if (Id == null) { return NotFound(); }
+
+			var products = await _dataContext.Products.Where(p => p.BrandId == Id).Include(p => p.Brand).Include(p => p.Category).ToListAsync();
+			return PartialView("_DanhSachSanPham", products);
 		}
 	}
 }

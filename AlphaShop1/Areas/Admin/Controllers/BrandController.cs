@@ -1,11 +1,13 @@
 ﻿using AlphaShop1.Models;
 using AlphaShop1.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AlphaShop1.Areas.Admin.Controllers
 {
 	[Area("Admin")]
+	[Authorize]
 	public class BrandController : Controller
 	{
 		private readonly DataContext _dB;

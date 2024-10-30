@@ -1,5 +1,6 @@
 ﻿using AlphaShop1.Models;
 using AlphaShop1.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AlphaShop1.Areas.Admin.Controllers
 {
 	[Area("Admin")]
+	[Authorize]
 	public class ProductController : Controller
 	{
 		private readonly DataContext _dB;

@@ -1,5 +1,6 @@
 ﻿using AlphaShop1.Models.ViewModel;
 using AlphaShop1.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlphaShop1.Controllers
@@ -97,5 +98,6 @@ namespace AlphaShop1.Controllers
 			}else return RedirectToAction("RemoveCart", new { Id = Id });
 
 		}
+
 	}
 }
