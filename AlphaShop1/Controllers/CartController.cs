@@ -1,6 +1,5 @@
 ﻿using AlphaShop1.Models.ViewModel;
 using AlphaShop1.Repository;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlphaShop1.Controllers
@@ -44,7 +43,7 @@ namespace AlphaShop1.Controllers
 				{
 					Id = product.Id,
 					Name = product.Name,
-					Price = (double)product.Price,
+					Price = product.Price,
 					Image = product.Image ?? string.Empty,
 					SoLuong = quantity
 				};
@@ -95,7 +94,8 @@ namespace AlphaShop1.Controllers
 					HttpContext.Session.Set(CART_KEY, gioHang);
 				}
 				return RedirectToAction("Index");
-			}else return RedirectToAction("RemoveCart", new { Id = Id });
+			}
+			else return RedirectToAction("RemoveCart", new { Id = Id });
 
 		}
 

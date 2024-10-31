@@ -9,7 +9,7 @@ namespace AlphaShop1.Models
 		[Key]
 		public int Id { get; set; }
 
-		[Required, MinLength(4, ErrorMessage = "Yêu cầu nhập tên sản phẩm")]
+		[Required(ErrorMessage = "Yêu cầu nhập tên sản phẩm")]
 		public string Name { get; set; }
 
 		public string Slug { get; set; }

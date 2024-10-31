@@ -8,10 +8,10 @@
 
         public string Name { get; set; }
 
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
         public int SoLuong { get; set; }
 
-        public double Total => SoLuong * Price;
+        public decimal Total => SoLuong * Price;
     }
 }

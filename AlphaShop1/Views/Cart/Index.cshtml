@@ -84,7 +84,16 @@
 						<h5>Total</h5>
 						<h5>$@Model.Sum(p => p.Total)</h5>
 					</div>
-					<a class="btn btn-block btn-primary mt-3" asp-action="CheckOut" asp-controller="Cart"><strong>Proceed To Checkout</strong></a>
+
+					@if (User.Identity?.IsAuthenticated ?? false)
+					{
+						<a class="btn btn-block btn-primary mt-3" asp-action="Index" asp-controller="Checkout"><strong>Proceed To Checkout</strong></a>
+					}
+					else
+					{
+						<a class="btn btn-block btn-primary mt-3" asp-action="Login" asp-controller="Account"><strong>Login To Checkout</strong></a>
+					}
+
 
 
 				</div>
