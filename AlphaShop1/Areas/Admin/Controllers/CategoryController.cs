@@ -19,7 +19,7 @@ namespace AlphaShop1.Areas.Admin.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			var product = await _dB.Categories.OrderBy(p => p.Id).ToListAsync();
+			var product = await _dB.Categories.OrderByDescending(p => p.Id).ToListAsync();
 			return View(product);
 		}
 

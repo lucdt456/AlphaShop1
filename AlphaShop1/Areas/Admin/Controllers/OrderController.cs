@@ -16,7 +16,7 @@ namespace AlphaShop1.Areas.Admin.Controllers
 		}
 		public async Task<IActionResult> Index()
 		{
-			var order = await _dB.Orders.OrderBy(p => p.Id).ToListAsync();	
+			var order = await _dB.Orders.OrderByDescending(p => p.Id).ToListAsync();	
 			return View(order);
 		}
 

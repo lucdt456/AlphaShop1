@@ -60,7 +60,6 @@ namespace AlphaShop1.Controllers
 				return RedirectToAction("Index","Shop");
 
 			}
-			return View();
 		}
 	}
 }
