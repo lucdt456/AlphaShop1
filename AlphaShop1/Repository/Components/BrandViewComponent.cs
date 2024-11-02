@@ -18,7 +18,8 @@ namespace AlphaShop1.Repository.Components
             {
 				Id = c.Id,
 				Name = c.Name,
-				ProductCount = _dataContext.Products.Count(p => p.BrandId == c.Id)
+				ProductCount = _dataContext.Products.Count(p => p.BrandId == c.Id),
+				AllProductCount = _dataContext.Products.Count()
 			}).ToListAsync();
 
 			return View(Data);
