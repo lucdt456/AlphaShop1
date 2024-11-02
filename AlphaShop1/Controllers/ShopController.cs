@@ -1,4 +1,5 @@
-﻿using AlphaShop1.Repository;
+﻿using AlphaShop1.Models;
+using AlphaShop1.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,10 +16,24 @@ namespace AlphaShop1.Controllers
 		}
 
 		//Hiển thị danh sách hàng hóa
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index(int pg = 1)
 		{
-			var products = await _dataContext.Products.Include(p => p.Category).Include(p => p.Brand).ToListAsync();
-			return PartialView("_DanhSachSanPham", products);
+			List<ProductModel> products = await _dataContext.Products.OrderByDescending(p => p.Id).Include(p => p.Category).Include(p => p.Brand).ToListAsync();
+
+			const int pagSize = 6;
+
+			if (pg < 1)
+			{
+				pg = 1;
+			}
+
+			int recsCount = products.Count();
+			var pager = new Paginate(recsCount, pg, pagSize);
+			int recSkip = (pg - 1) * pagSize;
+
+			var data = products.Skip(recSkip).Take(pager.PageSize).ToList();
+			ViewBag.Pager = pager;
+			return PartialView("_DanhSachSanPham", data);
 		}
 
 
@@ -27,31 +42,10 @@ namespace AlphaShop1.Controllers
 		{
 			if (query != null)
 			{
-				var products = await _dataContext.Products.Where(p => p.Name.Contains(query)).Include(p => p.Category).Include(p => p.Brand).ToListAsync();
+				var products = await _dataContext.Products.OrderByDescending(p => p.Id).Where(p => p.Name.Contains(query)).Include(p => p.Category).Include(p => p.Brand).ToListAsync();
 				return PartialView("_DanhSachSanPham", products);
 			}
 			return RedirectToAction("Index");
-		}
-
-
-		//Lọc theo Category
-		public async Task<IActionResult> CategoryFill(int? Id)
-		{
-			if (Id == null)
-			{
-				return NotFound();
-			}
-			var products = await _dataContext.Products.Where(p => p.CategoryId == Id).Include(p => p.Category).Include(p => p.Brand).ToListAsync();
-			return PartialView("_DanhSachSanPham", products);
-		}
-
-		//Lọc theo Brand
-		public async Task<IActionResult> BrandFill(int? Id)
-		{
-			if (Id == null) { return NotFound(); }
-
-			var products = await _dataContext.Products.Where(p => p.BrandId == Id).Include(p => p.Brand).Include(p => p.Category).ToListAsync();
-			return PartialView("_DanhSachSanPham", products);
 		}
 	}
 }

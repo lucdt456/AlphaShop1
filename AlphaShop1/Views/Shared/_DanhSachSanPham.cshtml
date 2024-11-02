@@ -3,37 +3,50 @@
 @{
 	ViewData["Title"] = "Shop";
 	Layout = "_SidebarLayout";
+	Paginate pager = new Paginate();
+	int pageNo = 0;
+
+	if (ViewBag.Pager != null)
+	{
+		pager = ViewBag.Pager;
+		pageNo = pager.CurrentPage;
+	}
 }
 
-@foreach (var item in Model)
-{
-	<div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-		<div class="product-item bg-light mb-4">
-			<div class="product-img position-relative overflow-hidden">
-				<img class="img-fluid w-100" src="~/media/products/@item.Image" alt="">
-				<div class="product-action">
-					<a class="btn btn-outline-dark btn-square" asp-action="AddToCart" asp-controller="Cart" asp-route-Id="@item.Id"><i class="fa-solid fa-plus"></i></a>
-					<a class="btn btn-outline-dark btn-square" asp-action="Detail" asp-controller="Product" asp-route-Id="@item.Id"><i class="fa fa-search"></i></a>
+<div class="row">
+	@foreach (var item in Model)
+	{
+		<div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+			<div class="product-item bg-light mb-4">
+				<div class="product-img position-relative overflow-hidden">
+					<img class="img-fluid w-100" src="~/media/products/@item.Image" alt="">
+					<div class="product-action">
+						<a class="btn btn-outline-dark btn-square" asp-action="AddToCart" asp-controller="Cart" asp-route-Id="@item.Id"><i class="fa-solid fa-plus"></i></a>
+						<a class="btn btn-outline-dark btn-square" asp-action="Detail" asp-controller="Product" asp-route-Id="@item.Id"><i class="fa fa-search"></i></a>
+					</div>
 				</div>
-			</div>
-			<div class="text-center py-4">
-				<a class="h6 text-decoration-none text-truncate" href="">@item.Name</a>
-				<br />
-				Danh mục:<a class="h6 text-decoration-none text-truncate" href="">@item.Category.Name</a>
-				<br />
-				Thương hiệu:<a class="h6 text-decoration-none text-truncate" href="">@item.Brand.Name</a>
-				<div class="d-flex align-items-center justify-content-center mt-2">
-					<h5>$@item.Price</h5><h6 class="text-muted ml-2"><del>$@item.Price</del></h6>
-				</div>
-				<div class="d-flex align-items-center justify-content-center mb-1">
-					<small class="fa fa-star text-primary mr-1"></small>
-					<small class="fa fa-star text-primary mr-1"></small>
-					<small class="fa fa-star text-primary mr-1"></small>
-					<small class="fa fa-star text-primary mr-1"></small>
-					<small class="fa fa-star text-primary mr-1"></small>
-					<small>(99)</small>
+				<div class="text-center py-4">
+					<a class="h6 text-decoration-none text-truncate" href="">@item.Name</a>
+					<br />
+					Danh mục:<a class="h6 text-decoration-none text-truncate" href="">@item.Category.Name</a>
+					<br />
+					Thương hiệu:<a class="h6 text-decoration-none text-truncate" href="">@item.Brand.Name</a>
+					<div class="d-flex align-items-center justify-content-center mt-2">
+						<h5>$@item.Price</h5><h6 class="text-muted ml-2"><del>$@item.Price</del></h6>
+					</div>
+					<div class="d-flex align-items-center justify-content-center mb-1">
+						<small class="fa fa-star text-primary mr-1"></small>
+						<small class="fa fa-star text-primary mr-1"></small>
+						<small class="fa fa-star text-primary mr-1"></small>
+						<small class="fa fa-star text-primary mr-1"></small>
+						<small class="fa fa-star text-primary mr-1"></small>
+						<small>(99)</small>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-}
+	}
+
+	<partial name="_PVPhanTrang" model="@pager" />
+</div>
+

@@ -20,10 +20,25 @@ namespace AlphaShop1.Areas.Admin.Controllers
 			_webhostEnvironment = webhostEnvironment;
 		}
 
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index(int pg = 1)
 		{
-			var product = await _dB.Products.OrderByDescending(p => p.Id).Include(p => p.Category).Include(p => p.Brand).ToListAsync();
-			return View(product);
+			List<ProductModel> product = await _dB.Products.OrderByDescending(p => p.Id).Include(p => p.Category).Include(p => p.Brand).ToListAsync();
+
+			const int pagSize = 5;
+
+			if (pg < 1)
+			{
+				pg = 1;
+			}
+
+			int recsCount = product.Count();
+			var pager = new Paginate(recsCount, pg, pagSize);
+			int recSkip = (pg - 1) * pagSize;
+
+			var data = product.Skip(recSkip).Take(pager.PageSize).ToList();
+			ViewBag.Pager = pager;
+
+			return View(data);
 		}
 
 		//Create
