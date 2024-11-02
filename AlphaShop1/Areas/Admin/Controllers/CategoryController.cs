@@ -3,6 +3,7 @@ using AlphaShop1.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Drawing2D;
 
 namespace AlphaShop1.Areas.Admin.Controllers
 {
@@ -17,10 +18,24 @@ namespace AlphaShop1.Areas.Admin.Controllers
 			_dB = dB;
 		}
 
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index(int pg = 1)
 		{
 			var categories = await _dB.Categories.OrderByDescending(p => p.Id).ToListAsync();
-			return View(categories);
+			const int pagSize = 5;
+
+			if (pg < 1)
+			{
+				pg = 1;
+			}
+
+			int recsCount = categories.Count();
+			var pager = new Paginate(recsCount, pg, pagSize);
+			int recSkip = (pg - 1) * pagSize;
+
+			var data = categories.Skip(recSkip).Take(pager.PageSize).ToList();
+			ViewBag.Pager = pager;
+
+			return View(data);
 		}
 
 		//Create

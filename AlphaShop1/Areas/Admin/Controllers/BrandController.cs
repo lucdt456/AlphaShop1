@@ -16,10 +16,25 @@ namespace AlphaShop1.Areas.Admin.Controllers
 			_dB = db;
 		}
 
-		public async Task<ActionResult> Index()
+		public async Task<ActionResult> Index(int pg = 1)
 		{
-			var brand = await _dB.Brands.OrderByDescending(p => p.Id).ToListAsync();
-			return View(brand);
+			List<BrandModel> brand = await _dB.Brands.OrderByDescending(p => p.Id).ToListAsync();
+
+			const int pagSize = 5;
+
+			if (pg < 1)
+			{
+				pg = 1;
+			}
+
+			int recsCount = brand.Count();
+			var pager = new Paginate(recsCount, pg, pagSize);
+			int recSkip = (pg - 1) * pagSize;
+
+			var data = brand.Skip(recSkip).Take(pager.PageSize).ToList();
+			ViewBag.Pager = pager;
+
+			return View(data);
 		}
 
 		//Create

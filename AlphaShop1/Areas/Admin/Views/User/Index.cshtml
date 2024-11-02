@@ -2,6 +2,13 @@
 
 @{
 	ViewData["Title"] = "User";
+	Paginate pager = new Paginate();
+	int pageNo = 0;
+	if (ViewBag.Pager != null)
+	{
+		pager = ViewBag.Pager;
+		pageNo = pager.CurrentPage;
+	}
 }
 
 <div class="custom-container">
@@ -44,6 +51,7 @@
 			}
 		</tbody>
 	</table>
+	<partial name="_PVPhanTrang" model="@pager" />
 </div>
 
 <style>

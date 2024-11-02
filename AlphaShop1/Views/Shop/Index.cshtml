@@ -12,7 +12,6 @@
 		pageNo = pager.CurrentPage;
 	}
 }
-
 <div class="row">
 	@foreach (var item in Model)
 	{
@@ -47,6 +46,40 @@
 		</div>
 	}
 
-	<partial name="_PVPhanTrang" model="@pager" />
+	<div class="col-12 mt-5">
+		<nav>
+			<ul class="pagination justify-content-center">
+				@if (pager.CurrentPage > 0)
+				{
+					@if (pager.CurrentPage == 1)
+					{
+						<li class="page-item"><a class="page-link"><i class="fa-solid fa-backward"></i></a></li>
+						<li class="page-item"><a class="page-link"><i class="fa-solid fa-caret-left"></i></a></li>
+					}
+					else
+					{
+						<li class="page-item"><a class="page-link" asp-action="Index" asp-route-pg="1" asp-route-query="@ViewBag.Query"><i class="fa-solid fa-backward"></i></a></li>
+						<li class="page-item"><a class="page-link" asp-action="Index" asp-route-pg="@(pager.CurrentPage-1)" asp-route-query="@ViewBag.Query"><i class="fa-solid fa-caret-left"></i></a></li>
+					}
+
+					@for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+					{
+						<li class="page-item @(pge==pager.CurrentPage ? "active" : "")"><a class="page-link" asp-action="index" asp-route-pg="@pge" asp-route-query="@ViewBag.Query">@pge</a></li>
+					}
+
+					@if (pager.CurrentPage == pager.TotalPages)
+					{
+						<li class="page-item"><a class="page-link"><i class="fa-solid fa-caret-right"></i></a></li>
+						<li class="page-item"><a class="page-link"><i class="fa-solid fa-forward"></i></a></li>
+					}
+					else
+					{
+						<li class="page-item"><a class="page-link" asp-action="Index" asp-route-pg="@(pager.CurrentPage+1)" asp-route-query="@ViewBag.Query"><i class="fa-solid fa-caret-right"></i></a></li>
+						<li class="page-item"><a class="page-link" asp-action="Index" asp-route-pg="@pager.TotalPages" asp-route-query="@ViewBag.Query"><i class="fa-solid fa-forward"></i></a></li>
+					}
+				}
+			</ul>
+		</nav>
+	</div>
 </div>
 

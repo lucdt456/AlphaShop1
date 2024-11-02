@@ -1,4 +1,5 @@
-﻿using AlphaShop1.Models;
+﻿using AlphaShop1.Migrations;
+using AlphaShop1.Models;
 using AlphaShop1.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,12 +16,12 @@ namespace AlphaShop1.Controllers
 			_dataContext = dataContext;
 		}
 
-		//Hiển thị danh sách hàng hóa
-		public async Task<IActionResult> Index(int pg = 1)
+		//Hiển thị danh sách hàng hóa + Tìm kiếm
+		public async Task<IActionResult> Index(string query = "",int pg = 1)
 		{
-			List<ProductModel> products = await _dataContext.Products.OrderByDescending(p => p.Id).Include(p => p.Category).Include(p => p.Brand).ToListAsync();
+			List<ProductModel> products = await _dataContext.Products.OrderByDescending(p => p.Id).Where(p => p.Name.Contains(query)).Include(p => p.Category).Include(p => p.Brand).ToListAsync();
 
-			const int pagSize = 6;
+			const int pagSize = 3;
 
 			if (pg < 1)
 			{
@@ -33,19 +34,8 @@ namespace AlphaShop1.Controllers
 
 			var data = products.Skip(recSkip).Take(pager.PageSize).ToList();
 			ViewBag.Pager = pager;
-			return PartialView("_DanhSachSanPham", data);
-		}
-
-
-		//Tìm kiếm
-		public async Task<IActionResult> Search(string? query)
-		{
-			if (query != null)
-			{
-				var products = await _dataContext.Products.OrderByDescending(p => p.Id).Where(p => p.Name.Contains(query)).Include(p => p.Category).Include(p => p.Brand).ToListAsync();
-				return PartialView("_DanhSachSanPham", products);
-			}
-			return RedirectToAction("Index");
+			ViewBag.Query = query;
+			return View(data);
 		}
 	}
 }
