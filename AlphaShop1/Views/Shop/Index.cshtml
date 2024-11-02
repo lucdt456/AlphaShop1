@@ -12,10 +12,45 @@
 		pageNo = pager.CurrentPage;
 	}
 }
+<div class="col-12 pb-1">
+	<div class="d-flex align-items-center justify-content-between mb-4">
+		<div>
+			<button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
+			<button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
+		</div>
+		<div class="ml-2">
+			<div class="btn-group">
+				<button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
+				<div class="dropdown-menu dropdown-menu-right">
+					<a class="dropdown-item" href="#">Latest</a>
+					<a class="dropdown-item" href="#">Popularity</a>
+					<a class="dropdown-item" href="#">Best Rating</a>
+				</div>
+			</div>
+			<div class="btn-group ml-2">
+				<button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Showing</button>
+				<div class="dropdown-menu dropdown-menu-right">
+					<a class="dropdown-item" asp-action="Index" asp-route-pg="1" asp-route-query="@ViewBag.Query" asp-route-size="4">4</a>
+					<a class="dropdown-item" asp-action="Index" asp-route-pg="1" asp-route-query="@ViewBag.Query" asp-route-size="8">8</a>
+					<a class="dropdown-item" asp-action="Index" asp-route-pg="1" asp-route-query="@ViewBag.Query" asp-route-size="12">12</a>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-12">
+	@if (ViewBag.Query != "")
+	{
+		<h5 class="breadcrumb-item text-dark">Tìm kiếm "@ViewBag.Query" được @pager.TotalItems sản phẩm</h5>
+	}
+
+
+</div>
 <div class="row">
 	@foreach (var item in Model)
 	{
-		<div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+		<div class="col-lg-3 col-md-6 col-sm-6 pb-1">
 			<div class="product-item bg-light mb-4">
 				<div class="product-img position-relative overflow-hidden">
 					<img class="img-fluid w-100" src="~/media/products/@item.Image" alt="">
@@ -58,13 +93,13 @@
 					}
 					else
 					{
-						<li class="page-item"><a class="page-link" asp-action="Index" asp-route-pg="1" asp-route-query="@ViewBag.Query"><i class="fa-solid fa-backward"></i></a></li>
-						<li class="page-item"><a class="page-link" asp-action="Index" asp-route-pg="@(pager.CurrentPage-1)" asp-route-query="@ViewBag.Query"><i class="fa-solid fa-caret-left"></i></a></li>
+						<li class="page-item"><a class="page-link" asp-action="Index" asp-route-pg="1" asp-route-size="@ViewBag.Size" asp-route-query="@ViewBag.Query"><i class="fa-solid fa-backward"></i></a></li>
+						<li class="page-item"><a class="page-link" asp-action="Index" asp-route-size="@ViewBag.Size" asp-route-pg="@(pager.CurrentPage-1)" asp-route-query="@ViewBag.Query"><i class="fa-solid fa-caret-left"></i></a></li>
 					}
 
 					@for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
 					{
-						<li class="page-item @(pge==pager.CurrentPage ? "active" : "")"><a class="page-link" asp-action="index" asp-route-pg="@pge" asp-route-query="@ViewBag.Query">@pge</a></li>
+						<li class="page-item @(pge==pager.CurrentPage ? "active" : "")"><a class="page-link" asp-action="index" asp-route-pg="@pge" asp-route-query="@ViewBag.Query" asp-route-size="@ViewBag.Size">@pge</a></li>
 					}
 
 					@if (pager.CurrentPage == pager.TotalPages)
@@ -74,8 +109,8 @@
 					}
 					else
 					{
-						<li class="page-item"><a class="page-link" asp-action="Index" asp-route-pg="@(pager.CurrentPage+1)" asp-route-query="@ViewBag.Query"><i class="fa-solid fa-caret-right"></i></a></li>
-						<li class="page-item"><a class="page-link" asp-action="Index" asp-route-pg="@pager.TotalPages" asp-route-query="@ViewBag.Query"><i class="fa-solid fa-forward"></i></a></li>
+						<li class="page-item"><a class="page-link" asp-action="Index" asp-route-size="@ViewBag.Size" asp-route-pg="@(pager.CurrentPage+1)" asp-route-size="@ViewBag.Size" asp-route-query="@ViewBag.Query"><i class="fa-solid fa-caret-right"></i></a></li>
+						<li class="page-item"><a class="page-link" asp-action="Index" asp-route-size="@ViewBag.Size" asp-route-pg="@pager.TotalPages" asp-route-query="@ViewBag.Query"><i class="fa-solid fa-forward"></i></a></li>
 					}
 				}
 			</ul>
