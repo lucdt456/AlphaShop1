@@ -75,8 +75,14 @@
 						</button>
 						<div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
 							<div class="navbar-nav mr-auto py-0">
-								<a asp-area="" asp-action="Index" asp-controller="Home" class="nav-item nav-link active">Home</a>
+								@if (User.IsInRole("Admin") || User.IsInRole("Quản lý"))
+								{
+									<a asp-area="Admin" asp-action="Index" asp-controller="Product" class="nav-item nav-link">Admin</a>
+								}
+								
+								<a asp-area="" asp-action="Index" asp-controller="Home" class="nav-item nav-link">Home</a>
 								<a asp-area="" asp-action="Index" asp-controller="Shop" class="nav-item nav-link">Shop</a>
+								<a asp-area="" asp-action="Index" asp-controller="Order" class="nav-item nav-link">Order</a>
 								
 							</div>
 						</div>
@@ -107,7 +113,7 @@
 							@if (User.Identity?.IsAuthenticated ?? false)
 							{
 								<div>
-									<a asp-area="Admin" asp-action="Index" asp-controller="Product" class="h6 text-decoration-none text-truncate text-light ml-5">@User.Identity.Name</a>
+									<a  class="h6 text-decoration-none text-truncate text-light ml-5">@User.Identity.Name</a>
 								</div>
 								<div>
 									<a asp-area="" asp-action="Logout" asp-controller="Account" class="h6 text-decoration-none text-truncate text-light ml-3"><i class="fa-solid fa-right-from-bracket"></i></a>

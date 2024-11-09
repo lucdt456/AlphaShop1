@@ -1,0 +1,61 @@
+﻿@model AppUserModel
+
+@{
+	ViewData["Title"] = "Edit User";
+}
+
+<div class="custom-container">
+	<h3>Edit User</h3>
+	</br>
+	<div class="col-md-9">
+		<div asp-validation-summary="All"></div>
+		<form asp-action="Edit" enctype="multipart/form-data">
+			<input type="hidden" name="id" value="@Model.Id" />
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+			<div class="form-group">
+				<label>UserName</label>
+				<input asp-for="UserName" class="form-control" />
+			</div>
+
+			<div class="form-group">
+				<label>Email</label>
+				<input asp-for="Email" class="form-control"></input>
+				<span asp-validation-for="Email	" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<label>Phone Number</label>
+				<input asp-for="PhoneNumber" class="form-control"></input>
+				<span asp-validation-for="PhoneNumber	" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<label>Role</label>
+				<select class="form-control" name="roleName" asp-items="ViewBag.Roles">
+					<option>@ViewBag.UserRole</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<button class="btn btn-primary">Save</button>
+				<a class="btn btn-primary" asp-action="Index">Back to List User</a>
+			</div>
+		</form>
+
+	</div>
+</div>
+
+
+
+<style>
+	.custom-container {
+		max-width: 90%;
+		margin: 50px auto;
+	}
+</style>
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

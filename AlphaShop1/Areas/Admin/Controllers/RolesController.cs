@@ -1,4 +1,5 @@
 ﻿using AlphaShop1.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AlphaShop1.Areas.Admin.Controllers
 {
 	[Area("Admin")]
+	[Authorize(Roles = "Admin, Quản lý")]
 	public class RolesController : Controller
 	{
 		private readonly RoleManager<IdentityRole> _roleManager;

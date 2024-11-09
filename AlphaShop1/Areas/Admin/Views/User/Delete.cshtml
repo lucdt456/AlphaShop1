@@ -1,0 +1,60 @@
+﻿@model AppUserModel
+
+@{
+	ViewData["Title"] = "Delete User";
+}
+
+<div class="custom-container">
+	<h3>Edit User</h3>
+	</br>
+	<div class="col-md-9">
+		<div asp-validation-summary="All"></div>
+		<form asp-action="DeletePOST" enctype="multipart/form-data">
+			<input type="hidden" name="id" value="@Model.Id" />
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+			<div class="form-group">
+				<label>UserName</label>
+				<input asp-for="UserName" disabled class="form-control" />
+			</div>
+
+			<div class="form-group">
+				<label>Email</label>
+				<input asp-for="Email" disabled class="form-control"></input>
+				<span asp-validation-for="Email" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<label>Phone Number</label>
+				<input asp-for="PhoneNumber" disabled class="form-control"></input>
+				<span asp-validation-for="PhoneNumber	" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">		
+				<label>Role</label>
+				<input type="text" class="form-control" value="@ViewBag.UserRole" readonly />
+				
+			</div>
+
+			<div class="form-group">
+				<button class="btn btn-primary">Delete</button>
+				<a class="btn btn-primary" asp-action="Index">Back to List User</a>
+			</div>
+		</form>
+
+	</div>
+</div>
+
+
+
+<style>
+	.custom-container {
+		max-width: 90%;
+		margin: 50px auto;
+	}
+</style>
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

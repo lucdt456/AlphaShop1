@@ -1,5 +1,6 @@
 ﻿using AlphaShop1.Models;
 using AlphaShop1.Models.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AlphaShop1.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-
+	[Authorize(Roles = "Admin, Quản lý")]
 	public class UserController : Controller
 	{
 		private readonly RoleManager<IdentityRole> _roleManager;
@@ -37,7 +38,7 @@ namespace AlphaShop1.Areas.Admin.Controllers
 				});
 			}
 
-			const int pagSize = 5;
+			const int pagSize = 10;
 
 			if (pg < 1)
 			{
@@ -63,6 +64,7 @@ namespace AlphaShop1.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(AppUserModel user, string roleName)
 		{
             if (ModelState.IsValid)
@@ -105,29 +107,48 @@ namespace AlphaShop1.Areas.Admin.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Edit(string id)
 		{
+			if (string.IsNullOrEmpty(id))
+			{
+				return NotFound();
+			}
+
+			var userUpdate = await _userManager.FindByIdAsync(id);
+			if (userUpdate == null)
+			{
+				return NotFound();
+			}
+
 			var roles = await _roleManager.Roles.ToListAsync();
 			ViewBag.Roles = new SelectList(roles, "Name", "Name");
-			return View(new AppUserModel());
+
+			var userRoles = await _userManager.GetRolesAsync(userUpdate);
+			ViewBag.UserRole = userRoles.FirstOrDefault();
+			return View(userUpdate);
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(AppUserModel user, string roleName, string id)
 		{
 			if (ModelState.IsValid)
 			{
-				AppUserModel newUser = new AppUserModel
+				var userUpdate = await _userManager.FindByIdAsync(id);
+				if (userUpdate == null)
 				{
-					UserName = user.UserName,
-					Email = user.Email,
-					PhoneNumber = user.PhoneNumber,
-				};
+					return NotFound();
+				}
 
-				IdentityResult result = await _userManager.CreateAsync(newUser, user.PasswordHash);
+				userUpdate.UserName = user.UserName;
+				userUpdate.Email = user.Email;
+				userUpdate.PhoneNumber = user.PhoneNumber;
+				IdentityResult result = await _userManager.UpdateAsync(userUpdate);
 				if (result.Succeeded)
 				{
 					if (!string.IsNullOrEmpty(roleName))
 					{
-						await _userManager.AddToRoleAsync(newUser, roleName);
+						var userRoles = await _userManager.GetRolesAsync(userUpdate);
+						await _userManager.RemoveFromRolesAsync(userUpdate, userRoles);
+						await _userManager.AddToRoleAsync(userUpdate, roleName);
 					}
 					return RedirectToAction("Index");
 				}
@@ -147,6 +168,55 @@ namespace AlphaShop1.Areas.Admin.Controllers
 				}
 			}
 			return View(user);
+		}
+
+
+		[HttpGet]
+		public async Task<IActionResult> Delete(string id)
+		{
+			if (string.IsNullOrEmpty(id))
+			{
+				return NotFound();
+			}
+
+			var userUpdate = await _userManager.FindByIdAsync(id);
+			if (userUpdate == null)
+			{
+				return NotFound();
+			}
+
+			var roles = await _roleManager.Roles.ToListAsync();
+			ViewBag.Roles = new SelectList(roles, "Name", "Name");
+
+			var userRoles = await _userManager.GetRolesAsync(userUpdate);
+			ViewBag.UserRole = userRoles.FirstOrDefault();
+			return View(userUpdate);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeletePOST(string id)
+		{
+			
+				var userDelete = await _userManager.FindByIdAsync(id);
+				if (userDelete == null)
+				{
+					return NotFound();
+				}
+
+				
+				IdentityResult result = await _userManager.DeleteAsync(userDelete);
+				if (result.Succeeded)
+				{
+					return RedirectToAction("Index");
+				}
+
+				foreach (IdentityError error in result.Errors)
+				{
+					ModelState.AddModelError("", error.Description);
+					Console.WriteLine(error.Description);
+				}
+			return View();
 		}
 	}
 }

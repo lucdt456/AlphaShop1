@@ -8,7 +8,7 @@ using System.Drawing.Drawing2D;
 namespace AlphaShop1.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-	[Authorize]
+	[Authorize(Roles = "Admin, Quản lý")]
 	public class CategoryController : Controller
 	{
 		private readonly DataContext _dB;

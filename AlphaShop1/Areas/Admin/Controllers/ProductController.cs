@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AlphaShop1.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-	[Authorize]
+	[Authorize(Roles = "Admin, Quản lý")]
 	public class ProductController : Controller
 	{
 		private readonly DataContext _dB;
