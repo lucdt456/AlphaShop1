@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+@{
+	ViewData["Title"] = "Roles";
+	Paginate pager = new Paginate();
+	int pageNo = 0;
+	if (ViewBag.Pager != null)
+	{
+		pager = ViewBag.Pager;
+		pageNo = pager.CurrentPage;
+	}
+}
+
+<div class="custom-container">
+	<div class="row">
+		<div class="col-6">
+			<h3>List Users</h3>
+		</div>
+		<div class="col-6 text-right">
+			<a asp-action="Create" asp-controller="Roles" class="btn btn-primary"><i class="fa-solid fa-plus"></i><strong> Create Role</strong></a>
+		</div>
+	</div>
+
+	<br />
+	<table class="table table-light table-borderless table-hover text-center mb-0">
+		<thead class="thead-dark">
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody class="align-middle">
+			@foreach (var role in Model)
+			{
+				<tr>
+					<td class="align-middle">@role.Id</td>
+					<td class="align-middle">@role.Name</td>
+					<td class="align-middle">
+						<a asp-action="Edit" asp-controller="Roles" asp-route-Id="@role.Id" class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></a>
+						<a asp-action="Delete" asp-controller="Roles" asp-route-Id="@role.Id" class="btn btn-sm btn-danger ml-1"><i class="fa-solid fa-x"></i></a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<partial name="_PVPhanTrang" model="@pager" />
+</div>
+
+<style>
+	.custom-container {
+		max-width: 90%;
+		margin: 50px auto;
+	}
+</style>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AlphaShop1.Models.AppUserModel>
+﻿@model IEnumerable<AlphaShop1.Models.ViewModel.UserManagerVM>
 
 @{
 	ViewData["Title"] = "User";
@@ -28,7 +28,6 @@
 				<th>Id</th>
 				<th>User</th>
 				<th>Email</th>
-				<th>PasswordHash</th>
 				<th>Phone</th>
 				<th>Role</th>
 				<th></th>
@@ -42,7 +41,7 @@
 					<td class="align-middle">@user.UserName</td>
 					<td class="align-middle">@user.Email</td>
 					<td class="align-middle">@user.PhoneNumber</td>
-					<td class="align-middle"></td>
+					<td class="align-middle">@string.Join(", ", user.Roles)</td>
 					<td class="align-middle">
 						<a asp-action="Edit" asp-controller="User" asp-route-Id="@user.Id" class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></a>
 						<a asp-action="Delete" asp-controller="User" asp-route-Id="@user.Id" class="btn btn-sm btn-danger ml-1"><i class="fa-solid fa-x"></i></a>

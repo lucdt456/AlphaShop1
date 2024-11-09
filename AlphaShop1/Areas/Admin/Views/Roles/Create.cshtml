@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Create Role";
+}
+
+<div class="custom-container">
+	<h3>Create Role</h3>
+	</br>
+    <form asp-action="Create" method="post">
+        <div class="form-group">
+            <label for="roleName">Role Name</label>
+            <input type="text" name="roleName" id="roleName" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create</button>
+        <a asp-action="index" asp-controller="Roles" class="btn btn-primary">Cancel</a>
+    </form>
+
+</div>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger mt-3">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<style>
+	.custom-container {
+		max-width: 90%;
+		margin: 50px auto;
+	}
+</style>
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

@@ -1,0 +1,45 @@
+﻿@model Microsoft.AspNetCore.Identity.IdentityRole
+@{
+    ViewData["Title"] = "Delete Role";
+}
+
+<div class="custom-container">
+    <h3>Create Role</h3>
+    </br>
+    <form asp-action="DeletePOST" method="post">
+
+        <input type="hidden" name="id" value="@Model.Id" />
+
+        <div class="form-group">
+            <label for="roleName">Role Name</label>
+            <input type="text" disabled name="roleName" id="roleName" value="@Model.Name" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Delete</button>
+        <a asp-action="index" asp-controller="Roles" class="btn btn-primary">Cancel</a>
+    </form>
+
+</div>
+
+<!-- Hiển thị thông báo lỗi nếu có -->
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger mt-3">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<style>
+    .custom-container {
+        max-width: 90%;
+        margin: 50px auto;
+    }
+</style>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
