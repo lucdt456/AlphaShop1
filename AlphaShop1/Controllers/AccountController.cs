@@ -59,11 +59,13 @@ namespace AlphaShop1.Controllers
 				{
 					UserName = user.UserName,
 					Email = user.Email,
+					PhoneNumber = user.PhoneNumber
 				};
 
 				IdentityResult result = await _userManager.CreateAsync(newUser, user.Password);
 				if (result.Succeeded)
 				{
+					await _userManager.AddToRoleAsync(newUser, "Khách hàng");
 					return Redirect("/Account/Login");
 				}
 
