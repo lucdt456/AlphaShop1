@@ -43,6 +43,7 @@ namespace AlphaShop1.Areas.Admin.Controllers
 
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(string roleName)
 		{
 			var roleExitsts = await _roleManager.RoleExistsAsync(roleName);
@@ -84,6 +85,7 @@ namespace AlphaShop1.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(string id, string roleName)
 		{
 			if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(roleName))
@@ -141,6 +143,7 @@ namespace AlphaShop1.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeletePOST(string id)
 		{
 
